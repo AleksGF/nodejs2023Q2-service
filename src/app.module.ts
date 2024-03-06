@@ -1,7 +1,7 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
-import { DatabaseModule } from './database/database.module';
-import { UserModule } from './user/user.module';
+import { DatabaseModule } from './modules/database/database.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [DatabaseModule, UserModule],
