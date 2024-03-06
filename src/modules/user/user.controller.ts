@@ -27,7 +27,12 @@ export class UserController {
 
   @Post()
   createUser(
-    @Body(new ValidationPipe()) dto: CreateUserDto,
+    @Body(
+      new ValidationPipe({
+        whitelist: true,
+      }),
+    )
+    dto: CreateUserDto,
   ): Promise<Omit<User, 'password'>> {
     return this.userService.createUser(dto);
   }
@@ -42,7 +47,12 @@ export class UserController {
   @Put(':id')
   updateUserPassword(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body(new ValidationPipe()) dto: UpdatePasswordDto,
+    @Body(
+      new ValidationPipe({
+        whitelist: true,
+      }),
+    )
+    dto: UpdatePasswordDto,
   ): Promise<Omit<User, 'password'>> {
     return this.userService.updateUserPassword(id, dto);
   }
