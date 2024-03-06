@@ -43,14 +43,14 @@ export class UserService {
     return sanitizeUser(user);
   }
 
-  async deleteUser(id: string): Promise<User> {
+  async deleteUser(id: string): Promise<Omit<User, 'password'>> {
     const user = await this.databaseService.user.delete({ where: { id } });
 
     if (!user) {
       throw new NotFoundException(`User with id: ${id} not found`);
     }
 
-    return user;
+    return sanitizeUser(user);
   }
 
   async updateUserPassword(
