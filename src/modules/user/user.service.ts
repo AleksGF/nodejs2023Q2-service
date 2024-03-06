@@ -35,10 +35,10 @@ export class UserService {
 
     const hashedPassword = await hash(dto.password, CRYPT_SALT);
 
-    const user = await this.databaseService.user.create({
+    const user = (await this.databaseService.user.create({
       ...dto,
       password: hashedPassword,
-    });
+    })) as User;
 
     return sanitizeUser(user);
   }
