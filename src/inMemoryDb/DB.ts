@@ -57,6 +57,16 @@ export class DB {
 
       return user;
     }
+
+    if (modelName === 'artists') {
+      const artist = {
+        ...(data as { name: string; grammy: boolean }),
+        id,
+      };
+      model.push(artist);
+
+      return artist;
+    }
   }
 
   async $update(
@@ -78,9 +88,12 @@ export class DB {
     const updatedItem = {
       ...model[index],
       ...data,
-      version: model[index].version + 1,
-      updatedAt: Date.now(),
     };
+
+    if (modelName === 'users') {
+      updatedItem.version = updatedItem.version + 1;
+      updatedItem.updatedAt = Date.now();
+    }
 
     model[index] = updatedItem;
 
@@ -137,6 +150,7 @@ export class DB {
     };
   }
 
+  // TODO: Add Generics to have returned types???
   get user() {
     return this.$generateMethods('users');
   }
