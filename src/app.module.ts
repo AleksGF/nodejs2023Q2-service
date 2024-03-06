@@ -9,6 +9,9 @@ import { UserModule } from './modules/user/user.module';
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
+      useValue: {
+        forbidNonWhitelisted: true,
+      },
     },
   ],
 })

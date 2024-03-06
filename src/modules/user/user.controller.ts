@@ -49,7 +49,9 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteUser(@Param('id', new ParseUUIDPipe()) id: string): Promise<any> {
+  deleteUser(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<Omit<User, 'password'>> {
     return this.userService.deleteUser(id);
   }
 }
