@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DB } from '../inMemoryDb/DB';
+import { DB } from '../../inMemoryDb/DB';
 
 @Injectable()
 export class DatabaseService extends DB {
