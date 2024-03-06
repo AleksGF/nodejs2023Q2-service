@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Album, Artist, Favorites, Track, User } from '../database/types/';
+import { Album, Artist, Favorites, Track, User } from './types/';
 
 interface dataDB {
   users: User[];
