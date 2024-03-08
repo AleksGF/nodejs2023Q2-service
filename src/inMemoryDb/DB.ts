@@ -12,10 +12,10 @@ interface dataDB {
 export class DB {
   private _db: dataDB | null;
 
-  async $findMany(modelName: string) {
+  async $findMany(modelName: string, data?: { where: Record<string, any> }) {
     const model = this.$getModel(modelName);
 
-    return [...model];
+    if (!data) return [...model];
   }
 
   async $findUnique(
@@ -137,7 +137,8 @@ export class DB {
 
   private $generateMethods(modelName: string) {
     return {
-      findMany: () => this.$findMany(modelName),
+      findMany: (data?: { where: Record<string, any> }) =>
+        this.$findMany(modelName, data),
       findUnique: (data: { where: Record<string, any> }) =>
         this.$findUnique(modelName, data),
       create: (data: Record<string, any>) => this.$create(modelName, data),
