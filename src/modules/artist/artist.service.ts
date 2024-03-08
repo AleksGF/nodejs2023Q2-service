@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import { Artist } from './artist.interface';
-import { CreateArtistDto } from './dto/createArtistDto.dto';
-import { UpdateArtistDto } from './dto/updateArtistDto.dto';
+import { CreateArtistDto } from './dto/createArtist.dto';
+import { UpdateArtistDto } from './dto/updateArtist.dto';
 
 @Injectable()
 export class ArtistService {

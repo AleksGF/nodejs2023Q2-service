@@ -11,8 +11,8 @@ import {
   Put,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateTrackDto } from './dto/createTrackDto.dto';
-import { UpdateTrackDto } from './dto/updateTrackDto.dto';
+import { CreateTrackDto } from './dto/createTrack.dto';
+import { UpdateTrackDto } from './dto/updateTrack.dto';
 import { Track } from './track.interface';
 import { TrackService } from './track.service';
 

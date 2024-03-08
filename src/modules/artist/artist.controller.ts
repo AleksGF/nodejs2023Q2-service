@@ -13,8 +13,8 @@ import {
 } from '@nestjs/common';
 import { Artist } from './artist.interface';
 import { ArtistService } from './artist.service';
-import { CreateArtistDto } from './dto/createArtistDto.dto';
-import { UpdateArtistDto } from './dto/updateArtistDto.dto';
+import { CreateArtistDto } from './dto/createArtist.dto';
+import { UpdateArtistDto } from './dto/updateArtist.dto';
 
 @Controller('artist')
 export class ArtistController {

@@ -11,8 +11,8 @@ import {
   Put,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/createUserDto.dto';
-import { UpdatePasswordDto } from './dto/updatePasswordDto.dto';
+import { CreateUserDto } from './dto/createUser.dto';
+import { UpdatePasswordDto } from './dto/updatePassword.dto';
 import { User } from './user.interface';
 import { UserService } from './user.service';
 
