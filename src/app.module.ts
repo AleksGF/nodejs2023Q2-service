@@ -2,10 +2,11 @@ import { Module, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
 import { ArtistModule } from './modules/artist/artist.module';
 import { DatabaseModule } from './modules/database/database.module';
+import { TrackModule } from './modules/track/track.module';
 import { UserModule } from './modules/user/user.module';
 
 @Module({
-  imports: [DatabaseModule, UserModule, ArtistModule],
+  imports: [DatabaseModule, UserModule, ArtistModule, TrackModule],
   providers: [
     {
       provide: APP_PIPE,
