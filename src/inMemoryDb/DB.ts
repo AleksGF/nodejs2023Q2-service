@@ -15,7 +15,30 @@ export class DB {
   async $findMany(modelName: string, data?: { where: Record<string, any> }) {
     const model = this.$getModel(modelName);
 
-    if (!data) return [...model];
+    if (!data || !data?.where) return [...model];
+
+    const { where } = data;
+
+    return model.filter((item: Record<string, any>) => {
+      for (const key in where) {
+        const condition = where[key];
+
+        if (typeof condition === 'object' && condition.hasOwnProperty('in')) {
+          if (
+            !Array.isArray(condition.in) ||
+            !condition.in.includes(item[key])
+          ) {
+            return false;
+          }
+        } else {
+          if (item[key] !== condition) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    });
   }
 
   async $findUnique(
