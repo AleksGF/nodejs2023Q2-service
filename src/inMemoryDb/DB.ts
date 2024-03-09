@@ -6,7 +6,7 @@ interface dataDB {
   artists: Artist[];
   tracks: Track[];
   albums: Album[];
-  favorites: Favorites[];
+  favorites: Favorites;
 }
 
 export class DB {
@@ -141,6 +141,14 @@ export class DB {
     return model.splice(index, 1)[0];
   }
 
+  async $replaceWith(modelName: string, data: string[]) {
+    const model = this.$getModel(modelName);
+
+    model.splice(0, model.length, ...data);
+
+    return model;
+  }
+
   private $checkConnection() {
     if (!this._db) {
       throw new Error('Database not connected');
@@ -149,7 +157,13 @@ export class DB {
 
   private $getModel(modelName: string) {
     this.$checkConnection();
-    const model = this._db[modelName];
+    let model: any[];
+
+    if (modelName.startsWith('favorites.')) {
+      model = this._db.favorites[modelName.split('.')[1]];
+    } else {
+      model = this._db[modelName];
+    }
 
     if (!model) {
       throw new Error(`Model '${modelName}' not found`);
@@ -171,6 +185,7 @@ export class DB {
       }) => this.$update(modelName, data),
       delete: (data: { where: Record<string, any> }) =>
         this.$delete(modelName, data),
+      replaceWith: (data: string[]) => this.$replaceWith(modelName, data),
     };
   }
 
@@ -191,8 +206,16 @@ export class DB {
     return this.$generateMethods('albums');
   }
 
-  get favorite() {
-    return this.$generateMethods('favorites');
+  get favoriteArtist() {
+    return this.$generateMethods('favorites.artists');
+  }
+
+  get favoriteAlbum() {
+    return this.$generateMethods('favorites.artists');
+  }
+
+  get favoriteTrack() {
+    return this.$generateMethods('favorites.artists');
   }
 
   async $connect() {
@@ -201,7 +224,11 @@ export class DB {
       artists: [],
       tracks: [],
       albums: [],
-      favorites: [],
+      favorites: {
+        artists: [],
+        albums: [],
+        tracks: [],
+      },
     };
   }
 
