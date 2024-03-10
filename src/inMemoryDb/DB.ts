@@ -196,11 +196,11 @@ export class DB {
   }
 
   get favoriteAlbum() {
-    return this.$generateMethods('favorites.artists');
+    return this.$generateMethods('favorites.albums');
   }
 
   get favoriteTrack() {
-    return this.$generateMethods('favorites.artists');
+    return this.$generateMethods('favorites.tracks');
   }
 
   async $connect() {
