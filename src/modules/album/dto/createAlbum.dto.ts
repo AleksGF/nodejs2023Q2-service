@@ -1,6 +1,7 @@
 import {
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
   Max,
@@ -19,6 +20,7 @@ export class CreateAlbumDto {
   @Max(2029)
   year: number;
 
+  @IsOptional()
   @IsUUID('4')
   artistId: string | null;
 }
