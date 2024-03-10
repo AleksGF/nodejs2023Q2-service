@@ -8,7 +8,7 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/AleksGF/nodejs2023Q2-service.git
 ```
 
 ## Installing NPM modules
@@ -32,6 +32,12 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 After application running open new terminal and enter:
 
 To run all tests without authorization
+
+```
+npm run test:noauth
+```
+
+To run all tests without token refreshing
 
 ```
 npm run test
