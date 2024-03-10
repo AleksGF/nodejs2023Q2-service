@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { Album } from '../album/album.interface';
 import { Artist } from '../artist/artist.interface';
 import { DatabaseService } from '../database/database.service';
@@ -38,7 +42,7 @@ export class FavsService {
     });
 
     if (!track) {
-      throw new NotFoundException(`Track with id: ${id} not found`);
+      throw new UnprocessableEntityException(`Track with id: ${id} not found`);
     }
 
     const artists =
@@ -87,7 +91,7 @@ export class FavsService {
     });
 
     if (!album) {
-      throw new NotFoundException(`Album with id: ${id} not found`);
+      throw new UnprocessableEntityException(`Album with id: ${id} not found`);
     }
 
     const artists =
@@ -136,7 +140,7 @@ export class FavsService {
     });
 
     if (!artist) {
-      throw new NotFoundException(`Artist with id: ${id} not found`);
+      throw new UnprocessableEntityException(`Artist with id: ${id} not found`);
     }
 
     const tracks =
