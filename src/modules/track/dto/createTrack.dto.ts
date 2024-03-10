@@ -1,6 +1,7 @@
 import {
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   IsUUID,
   Min,
@@ -13,9 +14,11 @@ export class CreateTrackDto {
   @MinLength(1)
   name: string;
 
+  @IsOptional()
   @IsUUID('4')
   artistId: string | null;
 
+  @IsOptional()
   @IsUUID('4')
   albumId: string | null;
 
