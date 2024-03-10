@@ -27,11 +27,7 @@ export class TrackController {
 
   @Post()
   createTrack(
-    @Body(
-      new ValidationPipe({
-        whitelist: true,
-      }),
-    )
+    @Body(new ValidationPipe())
     dto: CreateTrackDto,
   ): Promise<Track> {
     return this.trackService.createTrack(dto);
@@ -45,11 +41,7 @@ export class TrackController {
   @Put(':id')
   updateTrack(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body(
-      new ValidationPipe({
-        whitelist: true,
-      }),
-    )
+    @Body(new ValidationPipe())
     dto: UpdateTrackDto,
   ): Promise<Track> {
     return this.trackService.updateTrack(id, dto);
