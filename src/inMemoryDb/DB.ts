@@ -123,6 +123,50 @@ export class DB {
 
     if (index === -1) return null;
 
+    const instanceId = model[index].id;
+
+    if (modelName === 'tracks') {
+      this._db.favorites.tracks = this._db.favorites.tracks.filter(
+        (trackId) => trackId !== instanceId,
+      );
+    }
+
+    if (modelName === 'albums') {
+      this._db.favorites.albums = this._db.favorites.albums.filter(
+        (albumId) => albumId !== instanceId,
+      );
+
+      this._db.tracks = this._db.tracks.map((track) => {
+        if (track.albumId === instanceId) {
+          return { ...track, albumId: null };
+        } else {
+          return track;
+        }
+      });
+    }
+
+    if (modelName === 'artists') {
+      this._db.favorites.artists = this._db.favorites.artists.filter(
+        (artistId) => artistId !== instanceId,
+      );
+
+      this._db.tracks = this._db.tracks.map((track) => {
+        if (track.artistId === instanceId) {
+          return { ...track, artistId: null };
+        } else {
+          return track;
+        }
+      });
+
+      this._db.albums = this._db.albums.map((album) => {
+        if (album.artistId === instanceId) {
+          return { ...album, artistId: null };
+        } else {
+          return album;
+        }
+      });
+    }
+
     return model.splice(index, 1)[0];
   }
 
