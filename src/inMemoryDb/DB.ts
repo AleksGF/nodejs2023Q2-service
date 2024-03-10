@@ -64,32 +64,17 @@ export class DB {
     const model = this.$getModel(modelName);
 
     const id = uuidv4();
-    const version = 1;
-    const createdAt = Date.now();
-    const updatedAt = Date.now();
+    const newInstance: Record<string, any> = { id, ...data };
 
     if (modelName === 'users') {
-      const user = {
-        ...(data as { login: string; password: string }),
-        id,
-        version,
-        createdAt,
-        updatedAt,
-      };
-      model.push(user);
-
-      return user;
+      newInstance.version = 1;
+      newInstance.createdAt = Date.now();
+      newInstance.updatedAt = Date.now();
     }
 
-    if (modelName === 'artists') {
-      const artist = {
-        ...(data as { name: string; grammy: boolean }),
-        id,
-      };
-      model.push(artist);
+    model.push(newInstance);
 
-      return artist;
-    }
+    return newInstance;
   }
 
   async $update(
@@ -114,7 +99,7 @@ export class DB {
     };
 
     if (modelName === 'users') {
-      updatedItem.version = updatedItem.version + 1;
+      updatedItem.version = (updatedItem.version ?? 0) + 1;
       updatedItem.updatedAt = Date.now();
     }
 
