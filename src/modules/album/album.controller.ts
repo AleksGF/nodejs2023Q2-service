@@ -27,11 +27,7 @@ export class AlbumController {
 
   @Post()
   createAlbum(
-    @Body(
-      new ValidationPipe({
-        whitelist: true,
-      }),
-    )
+    @Body(new ValidationPipe())
     dto: CreateAlbumDto,
   ): Promise<Album> {
     return this.albumService.createAlbum(dto);
@@ -45,11 +41,7 @@ export class AlbumController {
   @Put(':id')
   updateAlbum(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body(
-      new ValidationPipe({
-        whitelist: true,
-      }),
-    )
+    @Body(new ValidationPipe())
     dto: UpdateAlbumDto,
   ): Promise<Album> {
     return this.albumService.updateAlbum(id, dto);

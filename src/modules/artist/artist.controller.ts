@@ -27,11 +27,7 @@ export class ArtistController {
 
   @Post()
   createArtist(
-    @Body(
-      new ValidationPipe({
-        whitelist: true,
-      }),
-    )
+    @Body(new ValidationPipe())
     dto: CreateArtistDto,
   ): Promise<Artist> {
     return this.artistService.createArtist(dto);
@@ -45,11 +41,7 @@ export class ArtistController {
   @Put(':id')
   updateArtist(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body(
-      new ValidationPipe({
-        whitelist: true,
-      }),
-    )
+    @Body(new ValidationPipe())
     dto: UpdateArtistDto,
   ): Promise<Artist> {
     return this.artistService.updateArtist(id, dto);
