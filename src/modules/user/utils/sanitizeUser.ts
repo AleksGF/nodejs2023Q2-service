@@ -5,5 +5,5 @@ export const sanitizeUser = (user: User): Omit<User, 'password'> => {
 
   const { password, ...sanitizedUser } = user;
 
-  return sanitizedUser;
+  return password ? sanitizedUser : sanitizedUser;
 };
