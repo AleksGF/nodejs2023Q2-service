@@ -218,7 +218,6 @@ export class DB {
     };
   }
 
-  // TODO: Add Generics to have returned types???
   get user() {
     return this.$generateMethods('users');
   }
