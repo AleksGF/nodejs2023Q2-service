@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: nodejs2024_postgres
+    build:
+      context: .
+      dockerfile: ./postgres/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nodejs2024
+
+volumes:
+  postgres_data:
+
+networks:
+  nodejs2024:
+    driver: bridge
