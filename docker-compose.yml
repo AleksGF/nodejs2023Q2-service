@@ -7,12 +7,25 @@ services:
       context: .
       dockerfile: ./postgres/Dockerfile
     restart: unless-stopped
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - nodejs2024
+  nodejs2024_api_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    networks:
+      - nodejs2024
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+    command: [sh, -c, "npm run start:dev"]
+    volumes:
+      - .:/app:delegated
+      - /app/node_modules
 
 volumes:
   postgres_data:

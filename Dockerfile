@@ -1,9 +1,9 @@
-ARG IMAGE=node:20.11.0-alpine
+ARG IMAGE=node:lts-alpine
 
 FROM $IMAGE as builder
 WORKDIR /app
 COPY . .
-RUN npm install
+RUN npm i
 
 FROM builder as dev
 CMD [""]
