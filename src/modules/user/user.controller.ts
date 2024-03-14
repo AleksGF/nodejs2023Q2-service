@@ -21,7 +21,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  getUsers(): Promise<Omit<User, 'password'>[]> {
+  getUsers() {
     return this.userService.getAllUsers();
   }
 
@@ -29,14 +29,12 @@ export class UserController {
   createUser(
     @Body(new ValidationPipe())
     dto: CreateUserDto,
-  ): Promise<Omit<User, 'password'>> {
+  ) {
     return this.userService.createUser(dto);
   }
 
   @Get(':id')
-  getUser(
-    @Param('id', new ParseUUIDPipe()) id: string,
-  ): Promise<Omit<User, 'password'>> {
+  getUser(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.userService.getUserById(id);
   }
 
@@ -45,15 +43,13 @@ export class UserController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body(new ValidationPipe())
     dto: UpdatePasswordDto,
-  ): Promise<Omit<User, 'password'>> {
+  ) {
     return this.userService.updateUserPassword(id, dto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteUser(
-    @Param('id', new ParseUUIDPipe()) id: string,
-  ): Promise<Omit<User, 'password'>> {
+  deleteUser(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.userService.deleteUser(id);
   }
 }
