@@ -15,6 +15,10 @@ export class DB {
   async $findMany(modelName: string, data?: { where: Record<string, any> }) {
     const model = this.$getModel(modelName);
 
+    // if (modelName === 'users') {
+    //   return [{ name: 'User' }];
+    // }
+
     if (!data || !data?.where) return [...model];
 
     const { where } = data;
