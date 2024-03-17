@@ -2,17 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import { CreateAlbumDto } from './dto/createAlbum.dto';
 import { UpdateAlbumDto } from './dto/updateAlbum.dto';
-import { Album } from './album.interface';
+import { Album as AlbumModel } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class AlbumService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async getAllAlbums(): Promise<Album[]> {
+  async getAllAlbums(): Promise<AlbumModel[]> {
     return await this.databaseService.album.findMany();
   }
 
-  async getAlbumById(id: string): Promise<Album> {
+  async getAlbumById(id: string): Promise<AlbumModel> {
     const album = await this.databaseService.album.findUnique({
       where: { id },
     });
@@ -24,30 +25,32 @@ export class AlbumService {
     return album;
   }
 
-  async createAlbum(dto: CreateAlbumDto): Promise<Album> {
-    return (await this.databaseService.album.create(dto)) as unknown as Album;
+  async createAlbum(dto: CreateAlbumDto): Promise<AlbumModel> {
+    return await this.databaseService.album.create({ data: dto });
   }
 
-  async deleteAlbum(id: string): Promise<Album> {
-    const album = await this.databaseService.album.delete({ where: { id } });
+  async deleteAlbum(id: string): Promise<AlbumModel> {
+    try {
+      return await this.databaseService.album.delete({ where: { id } });
+    } catch (e) {
+      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025')
+        throw new NotFoundException(`Album with id: ${id} not found`);
 
-    if (!album) {
-      throw new NotFoundException(`Album with id: ${id} not found`);
+      throw e;
     }
-
-    return album;
   }
 
-  async updateAlbum(id: string, dto: UpdateAlbumDto): Promise<Album> {
-    const album = await this.databaseService.album.update({
-      where: { id },
-      data: dto,
-    });
+  async updateAlbum(id: string, dto: UpdateAlbumDto): Promise<AlbumModel> {
+    try {
+      return await this.databaseService.album.update({
+        where: { id },
+        data: dto,
+      });
+    } catch (e) {
+      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025')
+        throw new NotFoundException(`Album with id: ${id} not found`);
 
-    if (!album) {
-      throw new NotFoundException(`Album with id: ${id} not found`);
+      throw e;
     }
-
-    return album;
   }
 }
