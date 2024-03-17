@@ -2,16 +2,18 @@ version: '3.9'
 
 services:
   postgres:
-    image: nodejs2024_postgres
+    image: my_postgres
     build:
       context: .
       dockerfile: ./postgres/Dockerfile
     restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - postgres_logs:/var/log/postgresql
     networks:
       - nodejs2024
-  nodejs2024_api_app:
+  nodejs2024_app:
+    image: aleksgf/nodejs2024_app
     build:
       context: .
       dockerfile: Dockerfile
@@ -22,13 +24,18 @@ services:
       - "4000:4000"
     depends_on:
       - postgres
-    command: [sh, -c, "npm run start:dev"]
+    command: >
+      sh -c "npx prisma migrate dev
+      && npx prisma generate
+      && npm run start:dev"
+    restart: unless-stopped
     volumes:
       - .:/app:delegated
       - /app/node_modules
 
 volumes:
   postgres_data:
+  postgres_logs:
 
 networks:
   nodejs2024:

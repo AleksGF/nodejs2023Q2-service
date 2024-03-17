@@ -1,9 +1,10 @@
-ARG IMAGE=node:lts-alpine
+ARG IMAGE=node:20-alpine
 
 FROM $IMAGE as builder
 WORKDIR /app
-COPY . .
-RUN npm i
+COPY package*.json .
+RUN npm install
 
-FROM builder as dev
+FROM builder as nodejs2024_app
+COPY . .
 CMD [""]
