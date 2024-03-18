@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String              @id @default(uuid())
+  login         String
+  password      String
+  version       Int                 @default(1)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+}
+
+model Artist {
+  id            String              @id @default(uuid())
+  name          String
+  grammy        Boolean
+  albums        Album[]
+  tracks        Track[]
+  subscribers   FavoritesArtists[]  @relation("subscribeOnArtist")
+}
+
+model Album {
+  id            String              @id @default(uuid())
+  name          String
+  year          Int
+  artist        Artist?             @relation(fields: [artistId], references: [id], onDelete: SetNull)
+  artistId      String?
+  tracks        Track[]
+  subscribers   FavoritesAlbums[]   @relation("subscribeOnAlbum")
+}
+
+model Track {
+  id            String              @id @default(uuid())
+  name          String
+  duration      Int
+  artist        Artist?             @relation(fields: [artistId], references: [id], onDelete: SetNull)
+  artistId      String?
+  album         Album?              @relation(fields: [albumId], references: [id], onDelete: SetNull)
+  albumId       String?
+  subscribers   FavoritesTracks[]   @relation("subscribeOnTrack")
+}
+
+model FavoritesArtists {
+  artist        Artist  @relation("subscribeOnArtist", fields: [artistId], references: [id], onDelete: Cascade)
+  artistId      String
+
+  @@unique([artistId])
+}
+
+model FavoritesAlbums {
+  album         Album   @relation("subscribeOnAlbum", fields: [albumId], references: [id], onDelete: Cascade)
+  albumId       String
+
+  @@unique([albumId])
+}
+
+model FavoritesTracks {
+  track         Track   @relation("subscribeOnTrack", fields: [trackId], references: [id], onDelete: Cascade)
+  trackId       String
+
+  @@unique([trackId])
+}
